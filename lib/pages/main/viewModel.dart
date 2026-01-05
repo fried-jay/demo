@@ -9,26 +9,30 @@ class MainViewModel extends BaseViewModel {
       _init();
       return null;
     }, []);
-  }
 
+    useEffect(() {
+      _hasCompleted.value = todos.any((todo) => todo.isCompleted);
+      return null;
+    }, [ todos ]);
+  }
+ 
   final _todos = useState<List<Todo>>([]);
   List<Todo> get todos => _todos.value;
 
   final _newTodoTextController = useTextEditingController();
   TextEditingController get newTodoTextController => _newTodoTextController;
 
+  final _hasCompleted = useState<bool>(false);
+  bool get hasCompleted => _hasCompleted.value;
+ 
   _init() {
+    showLoading(context: context);
     _todos.value = [
       Todo(id: '1', title: '샘플 투두 1', createdAt: DateTime.now()),
       Todo(id: '2', title: '샘플 투두 2', createdAt: DateTime.now()),
       Todo(id: '3', title: '샘플 투두 3', createdAt: DateTime.now()),
-      Todo(id: '4', title: '샘플 투두 4', createdAt: DateTime.now()),
-      Todo(id: '5', title: '샘플 투두 5', createdAt: DateTime.now()),
-      Todo(id: '6', title: '샘플 투두 6', createdAt: DateTime.now()),
-      Todo(id: '7', title: '샘플 투두 7', createdAt: DateTime.now()),
-      Todo(id: '8', title: '샘플 투두 8', createdAt: DateTime.now()),
-      Todo(id: '9', title: '샘플 투두 9', createdAt: DateTime.now()),
     ];
+    hideLoading(context: context);
   }
 
   void addTodo(String title) {
@@ -42,7 +46,7 @@ class MainViewModel extends BaseViewModel {
     
     _todos.value = [..._todos.value, newTodo];
     newTodoTextController.clear();
-    rebuild();
+    // rebuild();
   }
 
   void toggleTodo(String id) {
@@ -52,16 +56,13 @@ class MainViewModel extends BaseViewModel {
       }
       return todo;
     }).toList();
-    rebuild();
   }
 
   void deleteTodo(String id) {
     _todos.value = _todos.value.where((todo) => todo.id != id).toList();
-    rebuild();
   }
 
   void deleteAllCompleted() {
     _todos.value = _todos.value.where((todo) => !todo.isCompleted).toList();
-    rebuild();
   }
 }
