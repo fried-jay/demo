@@ -11,7 +11,7 @@ class MainView extends BaseView<MainViewModel> {
   
   Widget _buildTodoList() {
     final todos = viewModel.todos;
-    final hasCompleted = todos.any((todo) => todo.isCompleted);
+    // final hasCompleted = todos.any((todo) => todo.isCompleted); 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -21,7 +21,7 @@ class MainView extends BaseView<MainViewModel> {
           const SizedBox(height: 16),
           _buildAddTodoButton(),
           const SizedBox(height: 16),
-          if (hasCompleted)
+          if (viewModel.hasCompleted)
             _buildDeleteAllCompletedButton(),
           if (todos.isEmpty)
             _buildEmptyTodoText()
