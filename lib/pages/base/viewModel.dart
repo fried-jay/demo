@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:demo/mixin/modal.dart';
 
-abstract class BaseViewModel {
+abstract class BaseViewModel with ModalMixin {
   final BuildContext context;
   final WidgetRef ref;
   BaseViewModel({required this.context, required this.ref});
