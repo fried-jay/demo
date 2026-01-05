@@ -7,29 +7,31 @@ class MainView extends BaseView<MainViewModel> {
   const MainView({super.key, required super.context, required super.viewModel});
 
   @override
-  Widget buildBody() {
+  Widget buildBody() => _buildTodoList();
+  
+  Widget _buildTodoList() {
     final todos = viewModel.todos;
     final hasCompleted = todos.any((todo) => todo.isCompleted);
-        return SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _buildTodoEditor(),
-              const SizedBox(height: 16),
-              _buildAddTodoButton(),
-              const SizedBox(height: 16),
-              if (hasCompleted)
-                _buildDeleteAllCompletedButton(),
-              if (todos.isEmpty)
-                _buildEmptyTodoText()
-              else
-                ...todos.map((todo) => _buildTodoItem(todo)),
-            ],
-          ),
-        );
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _buildTodoEditor(),
+          const SizedBox(height: 16),
+          _buildAddTodoButton(),
+          const SizedBox(height: 16),
+          if (hasCompleted)
+            _buildDeleteAllCompletedButton(),
+          if (todos.isEmpty)
+            _buildEmptyTodoText()
+          else
+            ...todos.map((todo) => _buildTodoItem(todo)),
+        ],
+      ),
+    );
   } 
-  
+
   Widget _buildTodoEditor() {
     return TextField(
       controller: viewModel.newTodoTextController,
@@ -48,12 +50,14 @@ class MainView extends BaseView<MainViewModel> {
       child: const Icon(Icons.add),
     );
   }
+
   Widget _buildDeleteAllCompletedButton() {
     return TextButton(
       onPressed: viewModel.deleteAllCompleted,
       child: const Text('완료된 항목 삭제'),
     );
   }
+
   Widget _buildEmptyTodoText() {
     return const Padding(
       padding: EdgeInsets.symmetric(vertical: 32.0),
@@ -64,6 +68,7 @@ class MainView extends BaseView<MainViewModel> {
       ),
     );
   }
+  
   Widget _buildTodoItem(Todo todo) {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
