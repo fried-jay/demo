@@ -33,6 +33,14 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Generated files
+*.freezed.dart
+*.g.dart
+
+# Android local properties
+local.properties
+**/local.properties
+
 # Symbolication related
 app.*.symbols
 
